@@ -1,0 +1,48 @@
+schema: spec-driven
+
+context: |
+  Project: Gift Management.
+  Current state: repository skeleton only.
+  Planned areas:
+    - web/: future React application, currently intentionally empty.
+    - bridge/: future VITO bridge, currently intentionally empty.
+    - supabase/: local Supabase configuration only.
+  Runtime/tooling:
+    - Node.js 22.22.3 via .nvmrc.
+    - Supabase CLI local development with Docker/OrbStack.
+    - Supabase Edge Runtime is disabled in the initial skeleton because no Edge Functions exist yet.
+  Current non-goals:
+    - No React implementation yet.
+    - No VITO bridge implementation yet.
+    - No database tables, migrations, policies, or seed data yet.
+  SDD session defaults:
+    - Artifact strategy: hybrid; OpenSpec files are canonical and Engram mirrors important context when useful.
+    - Execution mode: auto.
+    - Delivery strategy: auto-chain when review workload risk requires splitting.
+    - Review budget: target 250 changed lines per reviewable slice.
+
+rules:
+  proposal:
+    - Include explicit Non-goals.
+    - State user-visible outcome and acceptance criteria.
+    - Keep the first slice small enough to be reviewed independently.
+  specs:
+    - Write externally observable requirements with concrete scenarios.
+    - Do not specify implementation details unless they are part of the contract.
+  design:
+    - Name affected areas under web/, bridge/, and supabase/ explicitly.
+    - Call out security, data ownership, and rollback considerations when relevant.
+  tasks:
+    - Keep tasks reviewable against the 250-line target where practical.
+    - Separate schema/data changes from application or bridge changes unless a single vertical slice is clearly safer.
+    - Record required verification commands for each implementation slice.
+
+operations:
+  apply:
+    guidance:
+      - Do not add secrets to the repository.
+      - Keep generated code and dependencies out of scope unless the approved tasks require them.
+      - Preserve Supabase local verification evidence when Supabase configuration changes.
+  archive:
+    guidance:
+      - Summarize which specs changed and which verification evidence supports the archive.
