@@ -2,3 +2,9 @@
 .atl/
 .pi/gentle-ai/sdd-preflight.json
 .env
+
+# Web build/install artifacts
+web/node_modules/
+web/dist/
+web/tsconfig.tsbuildinfo
+web/.env.local

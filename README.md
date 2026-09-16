@@ -1,6 +1,6 @@
 # Gift Management
 
-Initial repository skeleton for the Gift Management project.
+Gift Management is starting with a small Supabase-backed authentication foundation.
 
 ## Prerequisites
 
@@ -17,14 +17,33 @@ supabase start
 supabase status
 ```
 
+## Web auth setup
+
+The React app lives in `web/` and uses Supabase Auth with public browser environment variables:
+
+```sh
+npm --prefix web install
+cp .env.example web/.env.local
+# Fill VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY with local Supabase values.
+npm --prefix web run dev
+```
+
+Required variables:
+
+- `VITE_SUPABASE_URL`: local or hosted Supabase project URL.
+- `VITE_SUPABASE_ANON_KEY`: Supabase anon public key. Do not use a service-role key in the browser.
+
 ## Current scope
 
-This repository currently contains only the first skeleton:
+Included in this slice:
 
-- `web/` is reserved for a future React app and intentionally contains no app code.
-- `bridge/` is reserved for a future VITO bridge and intentionally contains no bridge code.
-- `supabase/` contains local Supabase CLI project configuration only.
-- Supabase Edge Runtime is disabled in this skeleton because no Edge Functions exist yet.
-- OpenSpec is initialized so future changes can start with `/opsx:propose`.
+- Minimal React app in `web/`.
+- Tailwind CSS and minimal shadcn/ui-compatible component setup.
+- Supabase email/password sign-up, sign-in, session restoration, and sign-out.
+- Safe user-facing auth errors.
 
-No React implementation, bridge implementation, database schema, migrations, policies, or seed data are included yet.
+Out of scope for this slice:
+
+- Gift-management domain tables, migrations, RLS policies, and seed data.
+- VITO bridge implementation.
+- OAuth, magic links, password reset, custom email templates, and user profiles.
