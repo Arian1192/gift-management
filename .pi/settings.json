@@ -1,0 +1,5 @@
+{
+  "packages": [
+    "git:github.com/egdev6/github-repository-bootstrap@v1.1.0"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "account": "Arian1192",
+  "repository": "Arian1192/gift-management",
+  "requiredScopes": ["repo"],
+  "labels": {
+    "kind:bug": {
+      "color": "D73A4A",
+      "description": "Defect report",
+      "managed": true
+    },
+    "kind:feature": {
+      "color": "1D76DB",
+      "description": "Feature request",
+      "managed": true
+    }
+  },
+  "templates": {
+    "issueForms": ["bug_report", "feature_request"],
+    "issueFormLabels": {
+      "bug_report": ["kind:bug"],
+      "feature_request": ["kind:feature"]
+    },
+    "pullRequest": true,
+    "mode": "ensure"
+  }
+}
