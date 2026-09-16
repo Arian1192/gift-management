@@ -33,6 +33,14 @@ Required variables:
 - `VITE_SUPABASE_URL`: local or hosted Supabase project URL.
 - `VITE_SUPABASE_ANON_KEY`: Supabase anon public key. Do not use a service-role key in the browser.
 
+## Dependency update workflow
+
+Dependabot tracks supported dependency updates by opening pull requests, not by creating regular GitHub issues for each update.
+For npm dependencies under `web/`, Dependabot opens scheduled weekly pull requests against `dev` with a conservative open PR limit.
+These PRs should use dependency-focused labels such as `dependencies` and `npm`; if either label is missing in GitHub, add or approve it through normal repository governance instead of changing labels ad hoc during dependency updates.
+
+Dependency PRs must be reviewed and merged into `dev` first. Production promotion remains the normal `dev` to `main` flow; this repository does not auto-merge Dependabot changes or send them directly to production.
+
 ## Current scope
 
 Included in this slice:
