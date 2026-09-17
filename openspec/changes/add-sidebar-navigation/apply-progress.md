@@ -25,6 +25,7 @@
 - [x] 3.3 Integrated sidebar into the authenticated layout.
 - [x] 3.4 Added `SidebarFooter` with signed-in user info and a sign-out action inside a `DropdownMenu` (NavUser pattern).
 - [x] 3.5 Centered navigation icons and the user avatar when the sidebar is collapsed.
+- [x] 3.6 Repaired collapsed sidebar markup to remove custom centering wrappers and rely on the shadcn/ui base `SidebarMenuButton` collapsed styles.
 - [x] 4.1 Updated sign-out to redirect to `/login` after successful sign-out.
 - [x] 5.1 Added focused automated tests and updated manual verification checks.
 - [x] 5.2 Ran required verification commands.
@@ -59,6 +60,12 @@
 
 - `npm --prefix web test` → passed; 3 test files, 9 tests.
 - `npm --prefix web run build` → passed; Vite emitted a chunk-size warning for a 524.13 kB JS chunk after adding routing/Supabase app code.
+- `npx --yes openspec validate add-sidebar-navigation --strict` → passed; change is valid.
+
+### Collapsed Sidebar Repair Verification
+
+- `npm --prefix web test` → passed; 3 test files, 9 tests.
+- `npm --prefix web run build` → passed; Vite emitted a chunk-size warning for a 652.46 kB JS chunk.
 - `npx --yes openspec validate add-sidebar-navigation --strict` → passed; change is valid.
 - `git status --short` → run after implementation; modified app/OpenSpec files plus pre-existing untracked `.pi/gentle-ai/models.json` visible.
 

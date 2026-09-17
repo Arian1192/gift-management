@@ -1,7 +1,6 @@
 import { LogOut, UserCircle2, MoreVertical } from 'lucide-react'
 import type { Session } from '@supabase/supabase-js'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { cn } from '@/lib/utils'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,10 +27,9 @@ function getInitials(email: string): string {
 }
 
 export function NavUser({ session, onSignOut }: NavUserProps) {
-  const { isMobile, state } = useSidebar()
+  const { isMobile } = useSidebar()
   const email = session.user.email ?? 'User'
   const name = session.user.user_metadata?.full_name as string | undefined
-  const collapsed = state === 'collapsed'
 
   return (
     <SidebarMenu>
@@ -39,22 +37,21 @@ export function NavUser({ session, onSignOut }: NavUserProps) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
+              size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <span className={cn('flex', collapsed && 'flex-1 justify-center')}>
-                <Avatar className="h-8 w-8 shrink-0 rounded-lg">
-                  <AvatarFallback className="rounded-lg bg-sidebar-primary text-sidebar-primary-foreground text-xs">
-                    {getInitials(email)}
-                  </AvatarFallback>
-                </Avatar>
-              </span>
-              <div className={cn('grid flex-1 text-left text-sm leading-tight', collapsed && 'hidden')}>
+              <Avatar className="h-8 w-8 shrink-0 rounded-lg">
+                <AvatarFallback className="rounded-lg bg-sidebar-primary text-sidebar-primary-foreground text-xs">
+                  {getInitials(email)}
+                </AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{name && name !== email ? name : email}</span>
                 {name && name !== email && (
                   <span className="truncate text-xs text-sidebar-foreground/70">{email}</span>
                 )}
               </div>
-              <MoreVertical className={cn('ml-auto size-4', collapsed && 'hidden')} />
+              <MoreVertical className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent

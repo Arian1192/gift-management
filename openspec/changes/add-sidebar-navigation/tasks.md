@@ -32,6 +32,7 @@
 - [x] 6.3 Move signed-in user info and sign-out into a `DropdownMenu` inside the `SidebarFooter` (NavUser pattern).
 - [x] 6.4 Update tests to open the user dropdown before clicking Log out.
 - [x] 6.5 Re-run `npm --prefix web test`, `npm --prefix web run build`, and `npx --yes openspec validate add-sidebar-navigation --strict`.
+- [x] 6.6 Remove collapsed-sidebar wrapper/style hacks and realign navigation/user footer markup with the shadcn/ui base sidebar composition.
 
 ## Review Workload Forecast
 

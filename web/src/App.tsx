@@ -4,7 +4,7 @@ import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
 import { AppSidebar } from '@/components/AppSidebar'
 import { AuthPanel } from '@/components/AuthPanel'
 import { Card, CardContent } from '@/components/ui/card'
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { safeAuthError } from '@/lib/authErrors'
 import { supabase } from '@/lib/supabase'
 import { HomePage } from '@/pages/HomePage'
@@ -101,6 +101,9 @@ function ProtectedLayout({ session, isLoading, error, onSignOut }: ProtectedLayo
     <SidebarProvider>
       <AppSidebar session={session} onSignOut={onSignOut} />
       <SidebarInset>
+        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger />
+        </header>
         <section className="flex-1 p-6">
           {error && <p role="alert" className="mb-4 rounded-md bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
           <Outlet />
