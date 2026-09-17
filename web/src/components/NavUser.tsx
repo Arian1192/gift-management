@@ -57,9 +57,10 @@ export function NavUser({ session, onSignOut }: NavUserProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className={cn(
-              'w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg',
+              'z-[100] w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg border-border bg-background text-foreground shadow-lg',
               !isMobile && '-ml-2'
             )}
+            style={{ backgroundColor: 'hsl(var(--background))' }}
             side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={isMobile ? 4 : 0}

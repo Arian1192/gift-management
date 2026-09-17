@@ -28,6 +28,7 @@
 - [x] 3.6 Repaired collapsed sidebar markup to remove custom centering wrappers and rely on the shadcn/ui base `SidebarMenuButton` collapsed styles.
 - [x] 3.7 Wrapped the navigation menu in `SidebarGroup`/`SidebarGroupContent`; this restores the shadcn `p-2` group padding that centers 32px collapsed buttons inside the 48px icon rail.
 - [x] 3.8 Added missing shadcn theme tokens for `popover`, `accent`, and `secondary`, ensuring dropdown panels render with opaque backgrounds and correct focus states.
+- [x] 3.9 Set an explicit opaque background and `z-[100]` on the user dropdown to guarantee it covers the sidebar separator in collapsed mode.
 - [x] 4.1 Updated sign-out to redirect to `/login` after successful sign-out.
 - [x] 5.1 Added focused automated tests and updated manual verification checks.
 - [x] 5.2 Ran required verification commands.
