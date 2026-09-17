@@ -5,6 +5,8 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -57,11 +59,15 @@ export function AppSidebar({ session, onSignOut }: AppSidebarProps) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
-          {navigationItems.map((item) => (
-            <SidebarNavItem key={item.to} {...item} />
-          ))}
-        </SidebarMenu>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navigationItems.map((item) => (
+                <SidebarNavItem key={item.to} {...item} />
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <NavUser session={session} onSignOut={onSignOut} />
