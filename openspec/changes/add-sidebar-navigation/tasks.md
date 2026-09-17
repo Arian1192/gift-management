@@ -34,6 +34,7 @@
 - [x] 6.5 Re-run `npm --prefix web test`, `npm --prefix web run build`, and `npx --yes openspec validate add-sidebar-navigation --strict`.
 - [x] 6.6 Remove collapsed-sidebar wrapper/style hacks and realign navigation/user footer markup with the shadcn/ui base sidebar composition.
 - [x] 6.7 Wrap navigation menu in `SidebarGroup`/`SidebarGroupContent` so the official sidebar group padding centers 32px collapsed buttons inside the 48px icon rail.
+- [x] 6.8 Add missing shadcn theme tokens for `popover`, `accent`, and `secondary` so dropdown backgrounds and states render opaquely.
 
 ## Review Workload Forecast
 
