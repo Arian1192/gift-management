@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import App from './App'
@@ -66,9 +67,11 @@ describe('App navigation and auth routes', () => {
   it('redirects to login after sign-out succeeds', async () => {
     vi.mocked(supabase.auth.getSession).mockResolvedValue({ data: { session: activeSession }, error: null } as never)
     vi.mocked(supabase.auth.signOut).mockResolvedValue({ error: null } as never)
+    const user = userEvent.setup()
     renderApp('/')
     expect(await screen.findByText('person@example.com')).toBeInTheDocument()
-    fireEvent.click(screen.getByRole('button', { name: 'Sign out' }))
+    await user.click(screen.getByRole('button', { name: /person@example\.com/i }))
+    await user.click(await screen.findByRole('menuitem', { name: 'Log out' }))
     await waitFor(() => expect(supabase.auth.signOut).toHaveBeenCalled())
     expect(await screen.findByRole('button', { name: 'Sign in' })).toBeInTheDocument()
   })

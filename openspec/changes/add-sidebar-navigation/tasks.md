@@ -25,6 +25,14 @@
 - [x] 5.2 Run `npm --prefix web test`, `npm --prefix web run build`, and `npx --yes openspec validate add-sidebar-navigation --strict`.
 - [x] 5.3 Confirm no Supabase schema changes, no admin section, and no role-based access were added.
 
+## 6. Sidebar UX Improvements
+
+- [x] 6.1 Make the sidebar collapsible to icon width using `collapsible="icon"`, `SidebarTrigger`, and `SidebarRail`.
+- [x] 6.2 Center navigation icons and the user avatar when the sidebar is collapsed.
+- [x] 6.3 Move signed-in user info and sign-out into a `DropdownMenu` inside the `SidebarFooter` (NavUser pattern).
+- [x] 6.4 Update tests to open the user dropdown before clicking Log out.
+- [x] 6.5 Re-run `npm --prefix web test`, `npm --prefix web run build`, and `npx --yes openspec validate add-sidebar-navigation --strict`.
+
 ## Review Workload Forecast
 
 - Estimated changed lines: 250-500 depending on generated shadcn sidebar code and test coverage.

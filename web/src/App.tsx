@@ -3,7 +3,6 @@ import type { Session } from '@supabase/supabase-js'
 import { Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom'
 import { AppSidebar } from '@/components/AppSidebar'
 import { AuthPanel } from '@/components/AuthPanel'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { safeAuthError } from '@/lib/authErrors'
@@ -100,15 +99,8 @@ function ProtectedLayout({ session, isLoading, error, onSignOut }: ProtectedLayo
 
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar session={session} onSignOut={onSignOut} />
       <SidebarInset>
-        <header className="flex items-center justify-between border-b bg-background px-6 py-4">
-          <div>
-            <p className="text-sm text-muted-foreground">Signed in as</p>
-            <p className="font-medium">{session.user.email ?? 'Authenticated user'}</p>
-          </div>
-          <Button type="button" onClick={onSignOut}>Sign out</Button>
-        </header>
         <section className="flex-1 p-6">
           {error && <p role="alert" className="mb-4 rounded-md bg-destructive/10 p-3 text-sm text-destructive">{error}</p>}
           <Outlet />
