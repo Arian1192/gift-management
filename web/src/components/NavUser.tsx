@@ -1,6 +1,7 @@
 import { LogOut, UserCircle2, MoreVertical } from 'lucide-react'
 import type { Session } from '@supabase/supabase-js'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { cn } from '@/lib/utils'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,10 +56,13 @@ export function NavUser({ session, onSignOut }: NavUserProps) {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className={cn(
+              'w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg',
+              !isMobile && '-ml-2'
+            )}
             side={isMobile ? 'bottom' : 'right'}
             align="end"
-            sideOffset={isMobile ? 4 : -1}
+            sideOffset={isMobile ? 4 : 0}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
