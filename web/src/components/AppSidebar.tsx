@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from '@/components/ui/sidebar'
 import { NavUser } from '@/components/NavUser'
 
@@ -34,19 +35,20 @@ function SidebarNavItem({
   label: string
 }) {
   const { pathname } = useLocation()
+  const { state } = useSidebar()
   const isActive = to === '/' ? pathname === '/' : pathname.startsWith(to)
+  const collapsed = state === 'collapsed'
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton
-        asChild
-        isActive={isActive}
-        tooltip={label}
-        className="group-data-[collapsible=icon]:!justify-center"
-      >
-        <Link to={to} aria-current={isActive ? 'page' : undefined}>
+      <SidebarMenuButton asChild isActive={isActive} tooltip={label}>
+        <Link
+          to={to}
+          aria-current={isActive ? 'page' : undefined}
+          style={{ justifyContent: collapsed ? 'center' : undefined }}
+        >
           <Icon aria-hidden={true} />
-          <span className="group-data-[collapsible=icon]:hidden">{label}</span>
+          <span className={collapsed ? 'hidden' : ''}>{label}</span>
         </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>
