@@ -40,13 +40,14 @@ export function NavUser({ session, onSignOut }: NavUserProps) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              style={{ justifyContent: collapsed ? 'center' : undefined }}
             >
-              <Avatar className="h-8 w-8 shrink-0 rounded-lg">
-                <AvatarFallback className="rounded-lg bg-sidebar-primary text-sidebar-primary-foreground text-xs">
-                  {getInitials(email)}
-                </AvatarFallback>
-              </Avatar>
+              <span className={cn('flex', collapsed && 'flex-1 justify-center')}>
+                <Avatar className="h-8 w-8 shrink-0 rounded-lg">
+                  <AvatarFallback className="rounded-lg bg-sidebar-primary text-sidebar-primary-foreground text-xs">
+                    {getInitials(email)}
+                  </AvatarFallback>
+                </Avatar>
+              </span>
               <div className={cn('grid flex-1 text-left text-sm leading-tight', collapsed && 'hidden')}>
                 <span className="truncate font-medium">{name && name !== email ? name : email}</span>
                 {name && name !== email && (

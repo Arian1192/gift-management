@@ -1,6 +1,7 @@
 import { Home, User } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import type { Session } from '@supabase/supabase-js'
+import { cn } from '@/lib/utils'
 import {
   Sidebar,
   SidebarContent,
@@ -42,13 +43,11 @@ function SidebarNavItem({
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={isActive} tooltip={label}>
-        <Link
-          to={to}
-          aria-current={isActive ? 'page' : undefined}
-          style={{ justifyContent: collapsed ? 'center' : undefined }}
-        >
-          <Icon aria-hidden={true} />
-          <span className={collapsed ? 'hidden' : ''}>{label}</span>
+        <Link to={to} aria-current={isActive ? 'page' : undefined}>
+          <span className={cn('flex', collapsed && 'flex-1 justify-center')}>
+            <Icon aria-hidden={true} />
+          </span>
+          <span className={cn(collapsed && 'hidden')}>{label}</span>
         </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>
