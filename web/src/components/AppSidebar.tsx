@@ -53,9 +53,9 @@ export function AppSidebar({ session, onSignOut }: AppSidebarProps) {
   return (
     <Sidebar collapsible="icon" aria-label="Primary navigation">
       <SidebarHeader>
-        <div className="flex flex-col px-2 py-1 group-data-[state=collapsed]:hidden">
-          <p className="text-xs font-medium uppercase tracking-wide text-sidebar-foreground/70">Gift Management</p>
-          <h1 className="text-lg font-semibold text-sidebar-foreground">Workspace</h1>
+        <div className="flex flex-col overflow-hidden px-2 py-1 group-data-[state=collapsed]:hidden">
+          <p className="whitespace-nowrap text-xs font-medium uppercase tracking-wide text-sidebar-foreground/70">Gift Management</p>
+          <h1 className="whitespace-nowrap text-lg font-semibold text-sidebar-foreground">Workspace</h1>
         </div>
       </SidebarHeader>
       <SidebarContent>
