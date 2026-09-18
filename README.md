@@ -35,7 +35,7 @@ Required variables:
 
 ## VITO bridge setup
 
-The VITO bridge foundation lives in `bridge/`. This slice only validates local bridge configuration and provides a health/check command; it does not call VITO or synchronize data.
+The VITO bridge foundation lives in `bridge/`. The local `check` command validates bridge configuration without calling VITO or synchronizing data.
 
 ```sh
 npm --prefix bridge test
@@ -48,6 +48,19 @@ Required variables:
 
 - `VITO_BASE_URL`: future VITO API base URL.
 - `VITO_API_TOKEN`: future VITO API credential; secret, never commit a real value.
+- `VITO_PROBE_PATH`: least-sensitive read-only VITO status/health path for the live probe.
+- `VITO_PROBE_TIMEOUT_MS`: optional probe timeout in milliseconds; defaults to `5000`.
+
+To intentionally verify live read-only VITO connectivity with local credentials:
+
+```sh
+set -a
+. bridge/.env
+set +a
+npm --prefix bridge run probe
+```
+
+The live probe redacts credentials, does not print raw VITO response payloads, and does not import, export, persist, or synchronize domain data.
 
 ## Dependency update workflow
 

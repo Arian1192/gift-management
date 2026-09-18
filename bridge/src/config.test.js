@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { getRequiredConfigKeys, validateBridgeConfig } from './config.js';
+import {
+  getRequiredConfigKeys,
+  getRequiredProbeConfigKeys,
+  validateBridgeConfig,
+  validateProbeConfig,
+} from './config.js';
 
 describe('validateBridgeConfig', () => {
   it('reports ready when safe local configuration is present', () => {
@@ -35,5 +40,54 @@ describe('validateBridgeConfig', () => {
     });
 
     assert.equal(JSON.stringify(result).includes(secret), false);
+  });
+});
+
+describe('validateProbeConfig', () => {
+  it('requires the probe path in addition to foundation configuration', () => {
+    const result = validateProbeConfig({
+      VITO_BASE_URL: 'https://vito.example.invalid',
+      VITO_API_TOKEN: 'local-placeholder-token',
+    });
+
+    assert.equal(result.ok, false);
+    assert.deepEqual(result.missing, ['VITO_PROBE_PATH']);
+    assert.equal(getRequiredProbeConfigKeys().includes('VITO_PROBE_PATH'), true);
+  });
+
+  it('uses the safe default timeout when no override is supplied', () => {
+    const result = validateProbeConfig({
+      VITO_BASE_URL: 'https://vito.example.invalid',
+      VITO_API_TOKEN: 'local-placeholder-token',
+      VITO_PROBE_PATH: '/status',
+    });
+
+    assert.equal(result.ok, true);
+    assert.equal(result.config.VITO_PROBE_TIMEOUT_MS, 5_000);
+    assert.equal(result.safeConfig.VITO_API_TOKEN, '[redacted]');
+  });
+
+  it('uses a positive integer timeout override', () => {
+    const result = validateProbeConfig({
+      VITO_BASE_URL: 'https://vito.example.invalid',
+      VITO_API_TOKEN: 'local-placeholder-token',
+      VITO_PROBE_PATH: '/status',
+      VITO_PROBE_TIMEOUT_MS: '2500',
+    });
+
+    assert.equal(result.ok, true);
+    assert.equal(result.config.VITO_PROBE_TIMEOUT_MS, 2_500);
+  });
+
+  it('falls back to the safe default timeout for invalid override values', () => {
+    const result = validateProbeConfig({
+      VITO_BASE_URL: 'https://vito.example.invalid',
+      VITO_API_TOKEN: 'local-placeholder-token',
+      VITO_PROBE_PATH: '/status',
+      VITO_PROBE_TIMEOUT_MS: '-1',
+    });
+
+    assert.equal(result.ok, true);
+    assert.equal(result.config.VITO_PROBE_TIMEOUT_MS, 5_000);
   });
 });
