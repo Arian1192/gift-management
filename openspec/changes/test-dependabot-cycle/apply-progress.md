@@ -38,6 +38,14 @@
 - Verified: `npm --prefix web test` (9 tests), `npm --prefix web run build`, `npx openspec validate test-dependabot-cycle --strict` all pass.
 - Plan: merge to `dev` before Monday `2026-09-21 09:00 UTC` so the next scheduled Dependabot run detects the outdated `clsx` and opens a PR back to `2.1.1`.
 
+## Observation result 2026-09-18 (SUCCESS)
+
+- After merging the drift to `dev`, a manual "Check for updates" was triggered from the GitHub Dependabot page.
+- Task 4.1: Dependabot opened PR #12 `chore(deps): bump clsx from 2.0.1 to 2.1.1 in /web`, base `dev`, at 2026-09-18 07:15 UTC. https://github.com/Arian1192/gift-management/pull/12
+- Task 4.2: PR #12 is the recorded evidence that the npm Dependabot update cycle works end to end (detect outdated dependency on `dev` -> open update PR back to latest with `dependencies`/`npm` labels).
+- Side observation: Dependabot also opened PR #10 (`@testing-library/jest-dom` 6.9.1 -> 7.0.1) and PR #11 (`tailwindcss` 3.4.19 -> 4.3.3), hitting the configured `open-pull-requests-limit: 3`. The "cannot open any more pull requests" message is expected once the 3-PR cap is reached; merging/closing PRs frees the queue.
+- Resolution: merging PR #12 resolves the intentional `clsx` drift on `dev` back to `2.1.1`.
+
 ## Notes
 
 - This drift is intentionally temporary.
