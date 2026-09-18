@@ -18,8 +18,8 @@
 
 ## 4. Observe Dependabot
 
-- [ ] 4.1 After merge to `dev`, observe whether Dependabot opens a PR targeting `dev` for the selected dependency.
-- [ ] 4.2 Record the Dependabot PR link or record evidence explaining why no PR appeared during the observation window.
+- [x] 4.1 After merge to `dev`, observe whether Dependabot opens a PR targeting `dev` for the selected dependency.
+- [x] 4.2 Record the Dependabot PR link or record evidence explaining why no PR appeared during the observation window.
 
 ## Review Workload Forecast
 
