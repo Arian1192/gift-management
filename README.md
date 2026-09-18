@@ -33,6 +33,22 @@ Required variables:
 - `VITE_SUPABASE_URL`: local or hosted Supabase project URL.
 - `VITE_SUPABASE_ANON_KEY`: Supabase anon public key. Do not use a service-role key in the browser.
 
+## VITO bridge setup
+
+The VITO bridge foundation lives in `bridge/`. This slice only validates local bridge configuration and provides a health/check command; it does not call VITO or synchronize data.
+
+```sh
+npm --prefix bridge test
+npm --prefix bridge run check
+```
+
+Bridge configuration uses environment variables. `bridge/env.example` contains safe placeholders only; copy it to `bridge/.env` for local development and keep real VITO credentials out of git.
+
+Required variables:
+
+- `VITO_BASE_URL`: future VITO API base URL.
+- `VITO_API_TOKEN`: future VITO API credential; secret, never commit a real value.
+
 ## Dependency update workflow
 
 Dependabot tracks supported dependency updates by opening pull requests, not by creating regular GitHub issues for each update.

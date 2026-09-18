@@ -1,0 +1,13 @@
+{
+  "name": "gift-management-vito-bridge",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "check": "node --env-file=env.example src/health-check.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": "22.22.3"
+  }
+}
