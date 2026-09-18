@@ -60,7 +60,16 @@ set +a
 npm --prefix bridge run probe
 ```
 
-The live probe redacts credentials, does not print raw VITO response payloads, and does not import, export, persist, or synchronize domain data.
+To intentionally discover safe VITO resource shapes from configured read-only paths:
+
+```sh
+set -a
+. bridge/.env
+set +a
+npm --prefix bridge run discover
+```
+
+The live probe and discovery commands redact credentials, do not print raw VITO response payloads, and do not import, export, persist, or synchronize domain data.
 
 ## Dependency update workflow
 

@@ -6,6 +6,7 @@
   "scripts": {
     "check": "node --env-file=env.example src/health-check.js",
     "probe": "node src/probe.js",
+    "discover": "node src/discovery.js",
     "test": "node --test"
   },
   "engines": {

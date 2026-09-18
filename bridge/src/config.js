@@ -17,7 +17,16 @@ const PROBE_CONFIG = [
   },
 ];
 
+const DISCOVERY_CONFIG = [
+  ...FOUNDATION_CONFIG,
+  {
+    name: 'VITO_DISCOVERY_PATHS',
+    secret: false,
+  },
+];
+
 const DEFAULT_PROBE_TIMEOUT_MS = 5_000;
+const DEFAULT_DISCOVERY_TIMEOUT_MS = 5_000;
 
 function normalizeValue(value) {
   return typeof value === 'string' ? value.trim() : '';
@@ -27,20 +36,51 @@ function findMissingConfig(requiredConfig, env) {
   return requiredConfig.filter(({ name }) => normalizeValue(env[name]) === '').map(({ name }) => name);
 }
 
-function parseProbeTimeout(value) {
+function parsePositiveInteger(value, fallback) {
   const normalized = normalizeValue(value);
 
   if (normalized === '') {
-    return DEFAULT_PROBE_TIMEOUT_MS;
+    return fallback;
   }
 
   const parsed = Number(normalized);
 
   if (!Number.isInteger(parsed) || parsed <= 0) {
-    return DEFAULT_PROBE_TIMEOUT_MS;
+    return fallback;
   }
 
   return parsed;
+}
+
+function parseProbeTimeout(value) {
+  return parsePositiveInteger(value, DEFAULT_PROBE_TIMEOUT_MS);
+}
+
+function parseDiscoveryTimeout(value) {
+  return parsePositiveInteger(value, DEFAULT_DISCOVERY_TIMEOUT_MS);
+}
+
+export function parseDiscoveryPaths(value) {
+  return normalizeValue(value)
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+    .map((entry) => {
+      const separatorIndex = entry.indexOf(':');
+
+      if (separatorIndex > 0) {
+        return {
+          name: entry.slice(0, separatorIndex).trim(),
+          path: entry.slice(separatorIndex + 1).trim(),
+        };
+      }
+
+      return {
+        name: entry,
+        path: entry,
+      };
+    })
+    .filter(({ name, path }) => name !== '' && path !== '');
 }
 
 export function getRequiredConfigKeys() {
@@ -49,6 +89,10 @@ export function getRequiredConfigKeys() {
 
 export function getRequiredProbeConfigKeys() {
   return PROBE_CONFIG.map(({ name }) => name);
+}
+
+export function getRequiredDiscoveryConfigKeys() {
+  return DISCOVERY_CONFIG.map(({ name }) => name);
 }
 
 export function validateBridgeConfig(env = process.env) {
@@ -98,5 +142,39 @@ export function validateProbeConfig(env = process.env) {
       VITO_PROBE_TIMEOUT_MS: parseProbeTimeout(env.VITO_PROBE_TIMEOUT_MS),
     },
     message: 'VITO probe configuration is ready.',
+  };
+}
+
+export function validateDiscoveryConfig(env = process.env) {
+  const missing = findMissingConfig(DISCOVERY_CONFIG, env);
+  const discoveryPaths = parseDiscoveryPaths(env.VITO_DISCOVERY_PATHS);
+
+  if (normalizeValue(env.VITO_DISCOVERY_PATHS) !== '' && discoveryPaths.length === 0) {
+    missing.push('VITO_DISCOVERY_PATHS');
+  }
+
+  if (missing.length > 0) {
+    return {
+      ok: false,
+      missing,
+      message: `Missing required VITO discovery configuration: ${missing.join(', ')}`,
+    };
+  }
+
+  return {
+    ok: true,
+    config: {
+      VITO_BASE_URL: normalizeValue(env.VITO_BASE_URL),
+      VITO_API_TOKEN: normalizeValue(env.VITO_API_TOKEN),
+      VITO_DISCOVERY_PATHS: discoveryPaths,
+      VITO_DISCOVERY_TIMEOUT_MS: parseDiscoveryTimeout(env.VITO_DISCOVERY_TIMEOUT_MS),
+    },
+    safeConfig: {
+      VITO_BASE_URL: normalizeValue(env.VITO_BASE_URL),
+      VITO_API_TOKEN: '[redacted]',
+      VITO_DISCOVERY_PATHS: discoveryPaths,
+      VITO_DISCOVERY_TIMEOUT_MS: parseDiscoveryTimeout(env.VITO_DISCOVERY_TIMEOUT_MS),
+    },
+    message: 'VITO discovery configuration is ready.',
   };
 }
