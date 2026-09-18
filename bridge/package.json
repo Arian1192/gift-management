@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "check": "node --env-file=env.example src/health-check.js",
+    "probe": "node src/probe.js",
     "test": "node --test"
   },
   "engines": {
