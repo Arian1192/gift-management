@@ -3,8 +3,11 @@ import { describe, it } from 'node:test';
 
 import {
   getRequiredConfigKeys,
+  getRequiredDiscoveryConfigKeys,
   getRequiredProbeConfigKeys,
+  parseDiscoveryPaths,
   validateBridgeConfig,
+  validateDiscoveryConfig,
   validateProbeConfig,
 } from './config.js';
 
@@ -89,5 +92,67 @@ describe('validateProbeConfig', () => {
 
     assert.equal(result.ok, true);
     assert.equal(result.config.VITO_PROBE_TIMEOUT_MS, 5_000);
+  });
+});
+
+describe('parseDiscoveryPaths', () => {
+  it('parses named and unnamed paths', () => {
+    assert.deepEqual(parseDiscoveryPaths('customers:/api/customers, /api/gifts'), [
+      {
+        name: 'customers',
+        path: '/api/customers',
+      },
+      {
+        name: '/api/gifts',
+        path: '/api/gifts',
+      },
+    ]);
+  });
+});
+
+describe('validateDiscoveryConfig', () => {
+  it('requires discovery paths in addition to foundation configuration', () => {
+    const result = validateDiscoveryConfig({
+      VITO_BASE_URL: 'https://vito.example.invalid',
+      VITO_API_TOKEN: 'local-placeholder-token',
+    });
+
+    assert.equal(result.ok, false);
+    assert.deepEqual(result.missing, ['VITO_DISCOVERY_PATHS']);
+    assert.equal(getRequiredDiscoveryConfigKeys().includes('VITO_DISCOVERY_PATHS'), true);
+  });
+
+  it('returns parsed paths and safe timeout defaults', () => {
+    const result = validateDiscoveryConfig({
+      VITO_BASE_URL: 'https://vito.example.invalid',
+      VITO_API_TOKEN: 'local-placeholder-token',
+      VITO_DISCOVERY_PATHS: 'customers:/api/customers, gifts:/api/gifts',
+    });
+
+    assert.equal(result.ok, true);
+    assert.deepEqual(result.config.VITO_DISCOVERY_PATHS, [
+      {
+        name: 'customers',
+        path: '/api/customers',
+      },
+      {
+        name: 'gifts',
+        path: '/api/gifts',
+      },
+    ]);
+    assert.equal(result.config.VITO_DISCOVERY_TIMEOUT_MS, 5_000);
+    assert.equal(result.safeConfig.VITO_API_TOKEN, '[redacted]');
+  });
+
+  it('uses a positive integer discovery timeout override', () => {
+    const result = validateDiscoveryConfig({
+      VITO_BASE_URL: 'https://vito.example.invalid',
+      VITO_API_TOKEN: 'local-placeholder-token',
+      VITO_DISCOVERY_PATHS: 'customers:/api/customers',
+      VITO_DISCOVERY_TIMEOUT_MS: '3000',
+    });
+
+    assert.equal(result.ok, true);
+    assert.equal(result.config.VITO_DISCOVERY_TIMEOUT_MS, 3_000);
   });
 });
