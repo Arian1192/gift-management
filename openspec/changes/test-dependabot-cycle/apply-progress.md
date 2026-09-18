@@ -31,6 +31,13 @@
 - Observe whether Dependabot opens a PR targeting `dev` for `clsx`.
 - Record the Dependabot PR link or evidence explaining why no PR appeared.
 
+## Re-drift (retry) 2026-09-18
+
+- First attempt failed to observe the cycle: drift `2.1.0 -> 2.0.1` was introduced `2026-09-17 00:13` and reverted `2026-09-17 01:01` (commit `ec984e1`), ~48 min later, while Dependabot only runs weekly on Mondays 09:00 UTC. No scheduled run occurred inside the drift window, so no PR appeared.
+- Retry: re-pinned `clsx` to exact `2.0.1` (from `^2.1.1`) on branch `test/dependabot-cycle-retry` off `dev` and regenerated `web/package-lock.json`. npm nested `clsx@2.1.1` under `class-variance-authority` as a required transitive; only `clsx` was intentionally changed.
+- Verified: `npm --prefix web test` (9 tests), `npm --prefix web run build`, `npx openspec validate test-dependabot-cycle --strict` all pass.
+- Plan: merge to `dev` before Monday `2026-09-21 09:00 UTC` so the next scheduled Dependabot run detects the outdated `clsx` and opens a PR back to `2.1.1`.
+
 ## Notes
 
 - This drift is intentionally temporary.
